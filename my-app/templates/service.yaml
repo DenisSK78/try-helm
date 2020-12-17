@@ -7,17 +7,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 80
-      targetPort: 9000
-      protocol: TCP
-      name: app
-    - port: 9001
-      targetPort: 9001
-      protocol: TCP
-      name: sonar
-    - port: 9002
-      targetPort: 9002
-      protocol: TCP
-      name: radar
+    {{- range .Values.microservices }}
+      - port: {{ .port }}
+        targetPort: {{ .targetPort }}
+        protocol: TCP
+        name: {{ .name }}
+    {{- end }}
   selector:
     {{- include "my-app.selectorLabels" . | nindent 4 }}

@@ -28,39 +28,16 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- range .Values.microservices }}
+        - name: {{ .name }}
+          image: "{{ .imege }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
           ports:
-            - name: app
-              containerPort: 9000
+            - name: {{ .name }}
+              containerPort: {{ .targetPort }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-
-        - name: sonar
-          securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "denis78/compose-first:latest"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: app-sonar
-              containerPort: 9001
-          resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-
-        - name: radar
-          securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "denis78/compose-second:latest"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: app-radar
-              containerPort: 9002
-          resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-
+            {{- toYaml $.Values.resources | nindent 12 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

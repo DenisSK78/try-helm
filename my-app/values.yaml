@@ -49,6 +49,23 @@ resources:
     cpu: 200m
     memory: 200Mi
 
+microservices:
+  - name: app
+    port: 80
+    targetPort: 9000
+    path: "/"
+    imege: "denis78/compose-main:latest"
+  - name: sonar
+    port: 9001
+    targetPort: 9001
+    path: "/sonar"
+    imege: "denis78/compose-first:latest"
+  - name: radar
+    port: 9002
+    targetPort: 9002
+    path: "/radar"
+    imege: "denis78/compose-second:latest"
+
 autoscaling:
   enabled: false
 
