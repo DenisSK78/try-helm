@@ -31,7 +31,7 @@ spec:
         {{- range .Values.microservices }}
         - name: {{ .name }}
           image: "{{ .imege }}"
-          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
             - name: {{ .name }}
               containerPort: {{ .targetPort }}

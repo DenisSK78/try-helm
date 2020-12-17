@@ -31,11 +31,11 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          {{- range .paths }}
+          {{- range $.Values.microservices }}
           - path: {{ .path }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: {{ .backend.servicePort }}
+              servicePort: {{ .targetPort }}
           {{- end }}
     {{- end }}
   {{- end }}
